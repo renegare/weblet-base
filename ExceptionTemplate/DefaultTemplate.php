@@ -5,6 +5,11 @@ namespace Renegare\Weblet\Base\ExceptionTemplate;
 use Renegare\Weblet\Base\ExceptionTemplateInterface;
 use Symfony\Component\Debug\Exception\FlattenException;
 
+/**
+ * Note this document has been lifted and shifted from the symfony/debug (#creditsDue) component.
+ * Had to do it to make exceptions more customisable.
+ * Please see 'Symfony\Component\HttpKernel\Debug\ExceptionHandler' for more information
+ */
 class DefaultTemplate implements ExceptionTemplateInterface {
     /**
      * {@inheritdoc}
@@ -74,6 +79,7 @@ EOF
 , $this->getStylesheet($exception));
 
     }
+
     /**
      * Gets the stylesheet associated with the given exception.
      *
@@ -137,6 +143,14 @@ EOF
 EOF;
     }
 
+    /**
+     * Mushes the html and css together as on HTML document
+     *
+     * @param string $content
+     * @param string $css
+     *
+     * @return string
+     */
     private function decorate($content, $css)
     {
         return <<<EOF
@@ -162,6 +176,13 @@ EOF;
 EOF;
     }
 
+    /**
+     * Formats an class to a html abbreviated element
+     *
+     * @param string $class
+     *
+     * @return string
+     */
     private function abbrClass($class)
     {
         $parts = explode('\\', $class);

@@ -11,7 +11,9 @@ class GlobalExceptionHandler extends ExceptionHandler{
 
     private static $exceptionHandler;
 
+    /** @var ExceptionTemplateInterface */
     protected $template;
+    /** @var bool */
     protected $debug;
 
     /**
@@ -43,26 +45,6 @@ class GlobalExceptionHandler extends ExceptionHandler{
         return $this->getErrorTemplate()->getContent($exception, $this->debug);
     }
 
-    public function getErrorTemplate() {
-        if(!$this->template) {
-            $this->setErrorTemplate(new ExceptionTemplate\DefaultTemplate);
-        }
-
-        return $this->template;
-    }
-
-    public function setErrorTemplate($template) {
-        if(is_string($template)) {
-            $template = new ExceptionTemplate\FileTemplate($template);
-        }
-
-        if(!($template instanceOf ExceptionTemplateInterface)) {
-            throw new \InvalidArgumentException('Error template must be a string or an instance of "Renegare\Weblet\Base\ExceptionTemplateInterface"');
-        }
-
-        $this->template = $template;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -85,7 +67,38 @@ class GlobalExceptionHandler extends ExceptionHandler{
         return new Response($this->getContent($exception), $exception->getStatusCode(), $exception->getHeaders());
     }
 
+    /**
+     * enable exceptions to be handled in debug mode (e.g display full stack trace)
+     */
     public function enableDebugMode() {
         $this->debug = true;
+    }
+
+    /**
+     * get the configured error template. DefaulTemplate is ... the defualt
+     * @return ExceptionTemplateInterface
+     */
+    public function getErrorTemplate() {
+        if(!$this->template) {
+            $this->setErrorTemplate(new ExceptionTemplate\DefaultTemplate);
+        }
+
+        return $this->template;
+    }
+
+    /**
+     * set the error template
+     * @param string|ExceptionTemplateInterface $template - string arguments are converted into ExceptionTemplate\FileTemplate
+     */
+    public function setErrorTemplate($template) {
+        if(is_string($template)) {
+            $template = new ExceptionTemplate\FileTemplate($template);
+        }
+
+        if(!($template instanceOf ExceptionTemplateInterface)) {
+            throw new \InvalidArgumentException('Error template must be a string or an instance of "Renegare\Weblet\Base\ExceptionTemplateInterface"');
+        }
+
+        $this->template = $template;
     }
 }
