@@ -6,6 +6,7 @@ use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Renegare\SilexCSH\CookieSessionServiceProvider;
 use Silex\Provider\MonologServiceProvider;
+use Silex\Provider\UrlGeneratorServiceProvider;
 
 class Weblet extends Application {
 
@@ -50,6 +51,8 @@ class Weblet extends Application {
         }
 
         $this->enableHealthCheckRoute();
+
+        $this->register(new UrlGeneratorServiceProvider);
     }
 
     /**
@@ -109,6 +112,6 @@ class Weblet extends Application {
     protected function enableHealthCheckRoute() {
         $this->get($this->getHealthCheckUri(), function(){
             return 'All Good!';
-        });
+        })->bind('_healthcheck');
     }
 }
