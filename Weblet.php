@@ -5,11 +5,14 @@ namespace Renegare\Weblet\Base;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Renegare\SilexCSH\CookieSessionServiceProvider;
+use Silex\Provider\MonologServiceProvider;
 
 class Weblet extends Application {
 
     /** @var boolean */
     protected $cookieSessionEnabled;
+    /** @var boolean */
+    protected $loggingEnabled;
 
     /**
      * Application constructor, initialises Error, Exception handlers andsets up config values.
@@ -26,7 +29,6 @@ class Weblet extends Application {
     public function __construct($name = 'weblet') {
         $exceptionHandler = GlobalExceptionHandler::register();
         $config = func_get_args();
-        array_shift($config);
         $values = call_user_func_array(['Renegare\Constants\Constants', 'compile'], $config);
 
         if(isset($values['debug']) && (!!$values['debug']) === true) {
@@ -34,7 +36,14 @@ class Weblet extends Application {
         }
 
         parent::__construct($values);
-        $this['app.name'] = $name;
+
+        if(!is_string($name)) {
+            $name = 'weblet';
+        }
+
+        if(!isset($this['app.name'])) {
+            $this['app.name'] = $name;
+        }
 
         if(isset($this['error.template'])) {
             $exceptionHandler->setErrorTemplate($this['error.template']);
@@ -48,6 +57,24 @@ class Weblet extends Application {
         if(!$this->cookieSessionEnabled) {
             $this->cookieSessionEnabled = true;
             $this->doRegister(new CookieSessionServiceProvider, ['session.cookie.options']);
+        }
+    }
+
+    /**
+     * enable Monolog logging functionality ... logs to file
+     */
+    public function enableLogging() {
+        if(!$this->loggingEnabled) {
+            $this->loggingEnabled = true;
+
+            if(!isset($this['monolog.name'])) {
+                $this['monolog.name'] = $this['app.name'];
+            }
+
+            $this->doRegister(new MonologServiceProvider, [
+                'monolog.logfile',
+                'monolog.name'
+            ]);
         }
     }
 

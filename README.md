@@ -17,7 +17,7 @@ The aims of this library is provide the following features:
 * Error Handling
 * Cookie Session
 * Logging Management
-* Generic Healthcheck Endpoint (accessible outside of OAuth2 security)
+* Generic Healthcheck Endpoint (accessible outside of security)
 * Url Generator (out of the box with Silex)
 
 *(This list is not complete and will grow as the need requires)*
