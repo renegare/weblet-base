@@ -46,4 +46,9 @@ class WebletTestCase extends \PHPUnit_Framework_TestCase {
         $cookie = $cookieJar->get($cookieName);
         return unserialize(unserialize($cookie->getValue())[1]);
     }
+
+    public function configureApplication(Weblet $app) {
+        $app['exception_handler']->disable();
+        $app['session.test'] = true;
+    }
 }

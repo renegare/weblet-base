@@ -48,6 +48,8 @@ class Weblet extends Application {
         if(isset($this['error.template'])) {
             $exceptionHandler->setErrorTemplate($this['error.template']);
         }
+
+        $this->enableHealthCheckRoute();
     }
 
     /**
@@ -56,7 +58,10 @@ class Weblet extends Application {
     public function enableCookieSession() {
         if(!$this->cookieSessionEnabled) {
             $this->cookieSessionEnabled = true;
-            $this->doRegister(new CookieSessionServiceProvider, ['session.cookie.options']);
+            $this->doRegister(new CookieSessionServiceProvider, [
+                'session.cookie.options',
+                'session.test'
+            ]);
         }
     }
 
@@ -92,5 +97,18 @@ class Weblet extends Application {
             }
         }
         $this->register($provider, $config);
+    }
+
+    public function getHealthCheckUri() {
+        if(!isset($this['healthcheck.uri'])) {
+            $this['healthcheck.uri'] = '/_healthcheck/';
+        }
+        return $this['healthcheck.uri'];
+    }
+
+    protected function enableHealthCheckRoute() {
+        $this->get($this->getHealthCheckUri(), function(){
+            return 'All Good!';
+        });
     }
 }
