@@ -55,6 +55,11 @@ class GlobalExceptionHandler extends ExceptionHandler{
         if(is_string($template)) {
             $template = new ExceptionTemplate\FileTemplate($template);
         }
+
+        if(!($template instanceOf ExceptionTemplateInterface)) {
+            throw new \InvalidArgumentException('Error template must be a string or an instance of "Renegare\Weblet\Base\ExceptionTemplateInterface"');
+        }
+
         $this->template = $template;
     }
 

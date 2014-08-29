@@ -115,4 +115,12 @@ EOF
         $this->assertEquals('Custom error message', $process->getOutput());
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testInvalidErrorTemplateConfig() {
+        $app = new Weblet('weblet', [
+            'error.template' => new \stdClass
+        ]);
+    }
 }

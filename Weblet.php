@@ -15,6 +15,8 @@ class Weblet extends Application {
      * - order of config args affect what is overriden (similar to array_merge)
      * @param string $name - app name used internally and set under 'app.name' in Pimple
      * @param string|array ...$configs - variable args, that can be a yaml file path or a hash array of values
+     * - boolean 'debug' - controls the debug mode of the application
+     * - string|ExceptionTemplateInterface 'error.template' - string is assumed to be a file path, else expects it to be an ExceptionTemplateInterface
      */
     public function __construct($name = 'weblet') {
         $exceptionHandler = GlobalExceptionHandler::register();
