@@ -102,6 +102,10 @@ class Weblet extends Application {
         $this->register($provider, $config);
     }
 
+    /**
+     * configured healthcheck uri (default value is '/_healthcheck/')
+     * @return string
+     */
     public function getHealthCheckUri() {
         if(!isset($this['healthcheck.uri'])) {
             $this['healthcheck.uri'] = '/_healthcheck/';
@@ -109,6 +113,10 @@ class Weblet extends Application {
         return $this['healthcheck.uri'];
     }
 
+    /**
+     * configure healthcheck route and binds to name '_healthcheck'
+     * @todo should be encapsulated in a HealthCheckServiceProvider #abstraction
+     */
     protected function enableHealthCheckRoute() {
         $this->get($this->getHealthCheckUri(), function(){
             return 'All Good!';
