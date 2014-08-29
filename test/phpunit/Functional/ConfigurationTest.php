@@ -21,29 +21,12 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
             'PARAM_3' => 'value_2'
         ]))->at($rootFs);
 
-        $app = new Weblet('Base Weblet', [
-            'app.root' => $rootFs->url(),
-            'Test' => 'hmmm'], $configAFile->url(), $configBFile->url());
+        $app = new Weblet('Base Weblet', ['Test' => 'hmmm'], $configAFile->url(), $configBFile->url());
 
         $this->assertEquals('Base Weblet', $app['app.name']);
-        $this->assertEquals($rootFs->url(), $app['app.root']);
         $this->assertEquals('hmmm', $app['Test']);
         $this->assertEquals('value_1', $app['PARAM_1']);
         $this->assertEquals('value_2', $app['PARAM_2']);
         $this->assertEquals('value_2', $app['PARAM_3']);
-    }
-
-    /**
-     * @expectedException BadMethodCallException
-     */
-    public function testWhenNoAppRootIsSet() {
-        $app = new Weblet('Base Weblet');
-    }
-
-    /**
-     * @expectedException BadMethodCallException
-     */
-    public function testWhenInvalidAppRootIsSet() {
-        $app = new Weblet('Base Weblet', ['app.root' => '/non-existant-path']);
     }
 }
