@@ -47,7 +47,7 @@ class Weblet extends Application {
     public function enableCookieSession() {
         if(!$this->cookieSessionEnabled) {
             $this->cookieSessionEnabled = true;
-            $this->register(new CookieSessionServiceProvider, ['session.cookie.options']);
+            $this->doRegister(new CookieSessionServiceProvider, ['session.cookie.options']);
         }
     }
 
@@ -57,9 +57,9 @@ class Weblet extends Application {
      * @param ServiceProviderInterface $provider
      * @param array $configKey = []
      */
-    protected function doRegister(ServiceProviderInterface $provider, array $configKey = []) {
+    protected function doRegister(ServiceProviderInterface $provider, array $configKeys = []) {
         $config = [];
-        foreach($configKey as $key) {
+        foreach($configKeys as $key) {
             if(isset($this[$key])) {
                 $config[$key] = $this[$key];
             }
