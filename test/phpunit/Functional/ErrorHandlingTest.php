@@ -123,4 +123,34 @@ EOF
             'error.template' => new \stdClass
         ]);
     }
+
+    public function testFatalErrorsCanBeLogged() {
+        $tmpLogFile = './test.app.log';
+        @unlink($tmpLogFile);
+
+        $process = new PhpProcess(<<<'EOF'
+<?php
+
+    // test env Setup
+    require_once 'vendor/autoload.php';
+
+    if (function_exists('xdebug_disable')) {
+        xdebug_disable();
+    }
+    // test env Setup End
+
+    $app = new Renegare\Weblet\Base\Weblet(['monolog.logfile' => './test.app.log']);
+    $app->enableLogging();
+    $app->doSomethingFatal();
+EOF
+);
+
+        $process->run();
+        $html = $process->getOutput();
+        $crawler = new Crawler($html);
+        $bodyText = trim($crawler->filter('body')->text());
+        $this->assertEquals('Whoops, looks like something went wrong.', $bodyText);
+        $this->assertContains('Attempted to call method "doSomethingFatal" on class "Renegare\Weblet\Base\Weblet"', stripcslashes(file_get_contents($tmpLogFile)));
+        @unlink($tmpLogFile);
+    }
 }

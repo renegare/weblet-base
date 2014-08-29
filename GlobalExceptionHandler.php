@@ -7,10 +7,10 @@ use Symfony\Component\HttpKernel\Debug\ExceptionHandler;
 use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\Response;
 
-class GlobalExceptionHandler extends ExceptionHandler{
+class GlobalExceptionHandler extends ExceptionHandler implements LoggerInterface {
+    use LoggerTrait;
 
     private static $exceptionHandler;
-
     /** @var ExceptionTemplateInterface */
     protected $template;
     /** @var bool */
@@ -50,6 +50,7 @@ class GlobalExceptionHandler extends ExceptionHandler{
      */
     public function handle(\Exception $exception)
     {
+        $this->critical('Uncaught application exception', ['exception' => $exception]);
         $response = $this->createResponse($exception);
         $response->sendHeaders();
         $response->sendContent();

@@ -14,6 +14,8 @@ class Weblet extends Application {
     protected $cookieSessionEnabled;
     /** @var boolean */
     protected $loggingEnabled;
+    /** @var GlobalExceptionHandler */
+    protected $exceptionHandler;
 
     /**
      * Application constructor, initialises Error, Exception handlers andsets up config values.
@@ -50,6 +52,8 @@ class Weblet extends Application {
             $exceptionHandler->setErrorTemplate($this['error.template']);
         }
 
+        $this->exceptionHandler = $exceptionHandler;
+
         $this->enableHealthCheckRoute();
 
         $this->register(new UrlGeneratorServiceProvider);
@@ -83,6 +87,8 @@ class Weblet extends Application {
                 'monolog.logfile',
                 'monolog.name'
             ]);
+
+            $this->exceptionHandler->setLogger($this['logger']);
         }
     }
 
