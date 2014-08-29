@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GlobalExceptionHandler extends ExceptionHandler{
 
-    private static $errorHandler;
     private static $exceptionHandler;
 
     protected $template;
@@ -24,16 +23,12 @@ class GlobalExceptionHandler extends ExceptionHandler{
         parent::__construct($debug);
     }
 
-    public function setDefaultErrorFile($file) {
-        $this->errorFile = $file;
-    }
-
     /**
      * {@inheritdoc}
      */
     public static function register($debug = false) {
         if(!self::$exceptionHandler) {
-            self::$errorHandler = ErrorHandler::register();
+            ErrorHandler::register();
             self::$exceptionHandler = parent::register($debug);
         }
 
