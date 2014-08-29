@@ -15,7 +15,7 @@ The aims of this library is provide the following features:
 * Functionally Testable architecture #WTH**
 * Configuration
 * Error Handling
-* Cookie Session Management
+* Cookie Session
 * Logging Management
 * Generic Healthcheck Endpoint (accessible outside of OAuth2 security)
 * Url Generator (out of the box with Silex)

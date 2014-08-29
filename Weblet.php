@@ -3,8 +3,13 @@
 namespace Renegare\Weblet\Base;
 
 use Silex\Application;
+use Silex\ServiceProviderInterface;
+use Renegare\SilexCSH\CookieSessionServiceProvider;
 
 class Weblet extends Application {
+
+    /** @var boolean */
+    protected $cookieSessionEnabled;
 
     /**
      * Application constructor, initialises Error, Exception handlers andsets up config values.
@@ -34,5 +39,31 @@ class Weblet extends Application {
         if(isset($this['error.template'])) {
             $exceptionHandler->setErrorTemplate($this['error.template']);
         }
+    }
+
+    /**
+     * enables the weblet to store session data in a cookie (please session data to a minimum!)
+     */
+    public function enableCookieSession() {
+        if(!$this->cookieSessionEnabled) {
+            $this->cookieSessionEnabled = true;
+            $this->register(new CookieSessionServiceProvider, ['session.cookie.options']);
+        }
+    }
+
+    /**
+     * Silex Service Providers come with their default config. Using built in weblet functionality
+     * this method prevents preconfigured values from being overriden.
+     * @param ServiceProviderInterface $provider
+     * @param array $configKey = []
+     */
+    protected function doRegister(ServiceProviderInterface $provider, array $configKey = []) {
+        $config = [];
+        foreach($configKey as $key) {
+            if(isset($this[$key])) {
+                $config[$key] = $this[$key];
+            }
+        }
+        $this->register($provider, $config);
     }
 }
