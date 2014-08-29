@@ -53,7 +53,7 @@ EOF
     $rootFS = vfsStream::setUp('tmp')->url();
     // test env Setup End
 
-    $app = new Renegare\Weblet\Base\Weblet('weblet', ['debug' => true]);
+    $app = new Renegare\Weblet\Base\Weblet(['debug' => true]);
     $app->doSomethingFatal();
 EOF
 );
@@ -78,7 +78,7 @@ EOF
     file_put_contents($rootFs . '/error.html', '<h1>Custom Error Message ...</h1>');
     // test env Setup End
 
-    $app = new Renegare\Weblet\Base\Weblet('weblet', [
+    $app = new Renegare\Weblet\Base\Weblet([
         'error.template' => $rootFs . '/error.html'
     ]);
 
@@ -104,7 +104,7 @@ EOF
     }
     // test env Setup End
 
-    $app = new Renegare\Weblet\Base\Weblet('weblet', [
+    $app = new Renegare\Weblet\Base\Weblet([
         'error.template' => new CustomErrorTemplate
     ]);
 
@@ -119,7 +119,7 @@ EOF
      * @expectedException InvalidArgumentException
      */
     public function testInvalidErrorTemplateConfig() {
-        $app = new Weblet('weblet', [
+        $app = new Weblet([
             'error.template' => new \stdClass
         ]);
     }

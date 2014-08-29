@@ -9,6 +9,9 @@ use Symfony\Component\Yaml\Yaml;
 class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
     public function testSetConstants() {
+        $app = new Weblet;
+        $this->assertEquals('weblet', $app['app.name']);
+
         $rootFs = vfsStream::setup('home');
 
         $configAFile = vfsStream::newFile('config_a.yml')->setContent(Yaml::dump([

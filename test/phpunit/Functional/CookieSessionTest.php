@@ -14,7 +14,7 @@ class CookieSessionTest extends WebletTestCase {
                 return new Weblet;
             }],
             ['WSC', function() {
-                return new Weblet('name', [
+                return new Weblet([
                     'session.cookie.options' => ['name' => 'WSC']
                 ]);
             }]
