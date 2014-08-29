@@ -12,14 +12,12 @@
 
     "require": {
         "php": ">=5.4.0",
-        "silex/silex": "1.2.*@dev",
         "monolog/monolog": "1.10.0",
-        "symfony/security": "v2.5.0",
-        "symfony/debug": "2.5.3",
-        "renegare/http": "v0.1.1rc2",
-        "renegare/scoauth": "0.1.*@dev",
+        
+        "renegare/constants": "v0.1.0",
         "renegare/silexcsh": "v0.1.0",
-        "renegare/constants": "v0.1.0"
+        "silex/silex": "1.2.*@dev",
+        "symfony/debug": "2.5.3"
     },
 
     "require-dev": {
