@@ -45,7 +45,7 @@ composer require renegare\weblet-base:dev-master
 *(!!! Please use an actual tagged version for production use as ```dev-master```
 will potentially be updated without warning and contain bugs. !!!)*
 
-Then create an instance or extend the class ```\Mendeley\Social\Weblet```:
+Then create an instance or extend the class ```\Renegare\Weblet\Base\Weblet```:
 
 ```
 // Example index.php
@@ -54,7 +54,7 @@ Then create an instance or extend the class ```\Mendeley\Social\Weblet```:
  * Pass the app name and configuration to the constructor
  * - No errors are thrown if any yaml file does not exist
  */
-$app = new Renegare\Weblet\Base('weblet',
+$app = new Renegare\Weblet\Base\Weblet('weblet',
     __DIR__ . '/../app-constants.yml.dist',
     __DIR__ . '/../app-constants.yml',
     ['app.root' => dirname(__DIR__)] // required
