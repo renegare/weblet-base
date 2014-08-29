@@ -1,5 +1,7 @@
 # Weblet Base Lib
 
+[![Build Status](https://travis-ci.org/renegare/weblet-base.png?branch=0.1.x)](https://travis-ci.org/renegare/weblet-base)
+
 This project contains a base set of classes that can be used to create a web application.
 It is a library and should be included as dependency and extended to fit your needs.
 
