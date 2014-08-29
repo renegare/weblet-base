@@ -1,6 +1,6 @@
 {
     "name": "renegare/weblet-base",
-    "description": "Simple silex security OAuth2 client",
+    "description": "Silex Weblet Base App",
     "keywords": ["weblet", "silex", "renegare"],
     "license": "MIT",
 
