@@ -2,12 +2,20 @@
 
 namespace Renegare\Weblet\Base\Test;
 
-use Renegare\Weblet\Base\WebletTestCase as WTC;
-
-class WebletTestCaseTest extends WTC {
+class WebletTestCaseTest extends WebletTestCase {
 
     public function testInstanceOfPHPUnit_Framework_Test() {
         $this->assertInstanceOf('PHPUnit_Framework_Test', $this);
     }
 
+    public function testGetApplication() {
+        $app = $this->getApplication();
+        $this->assertInstanceOf('Renegare\Weblet\Base\Weblet', $app);
+        $this->assertSame($this->app, $app);
+
+        $this->app = null;
+        $expectedNewAppInstance = $this->getApplication();
+        $this->assertInstanceOf('Renegare\Weblet\Base\Weblet', $expectedNewAppInstance);
+        $this->assertNotSame($app, $expectedNewAppInstance);
+    }
 }

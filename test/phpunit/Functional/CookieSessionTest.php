@@ -10,29 +10,27 @@ class CookieSessionTest extends WebletTestCase {
 
     public function provideTestEnableCookieSessionsData() {
         return [
-            ['PHPSESSIONID', function() {
-                return new Weblet;
-            }],
-            ['WSC', function() {
-                return new Weblet([
-                    'session.cookie.options' => ['name' => 'WSC']
-                ]);
-            }]
+            ['PHPSESSIONID', null],
+            ['WSC', ['name' => 'WSC']]
         ];
     }
 
     /**
      * @dataProvider provideTestEnableCookieSessionsData
      */
-    public function testEnableCookieSessions($expectedCookieName, \Closure $configureCallback) {
-        $app = $configureCallback();
+    public function testEnableCookieSessions($expectedCookieName, $sessionConfig = null) {
+        $app = $this->getApplication();
+
+        if($sessionConfig) {
+            $app['session.cookie.options'] = $sessionConfig;
+        }
+
+        $app->enableCookieSession();
 
         $app->get('/', function() use ($app) {
             $app['session']->set('param', 'value');
             return 'All Good!';
         });
-
-        $app->enableCookieSession();
 
         $client = $this->createClient([], $app);
         $client->request('GET', '/');

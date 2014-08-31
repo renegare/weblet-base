@@ -17,12 +17,11 @@
     </testsuites>
 
     <filter>
-        <blacklist>
-            <directory suffix=".php">./test</directory>
-            <directory suffix=".php">./vendor</directory>
-        </blacklist>
+        <whitelist>
+            <directory suffix=".php">./src</directory>
+        </whitelist>
     </filter>
     <listeners>
-        <listener class="Renegare\Weblet\Base\LoggerTestListener" />
+        <listener class="Renegare\Weblet\Base\PHPUnitPsrLogListener" />
     </listeners>
 </phpunit>

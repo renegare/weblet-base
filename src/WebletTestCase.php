@@ -13,10 +13,11 @@ class WebletTestCase extends \PHPUnit_Framework_TestCase {
     protected $app;
 
     /**
-     * creates an instance of weblet for each test
+     * creates an instance of weblet and configure it for each test
      */
     public function setUp() {
-        $this->app = $this->createApplication();
+        $app = $this->getApplication();
+        $this->configureApplication($app);
     }
 
     /**
@@ -24,8 +25,29 @@ class WebletTestCase extends \PHPUnit_Framework_TestCase {
      * @return Weblet
      */
     public function createApplication() {
-        $app = new Weblet;
-        return $app;
+        return new Weblet(['debug' => true]);
+    }
+
+    /**
+     * configure a given weblet
+     * @param Weblet $app
+     */
+    public function configureApplication(Weblet $app) {
+        $app['exception_handler']->disable();
+        set_exception_handler(null);
+        $app['session.test'] = true;
+    }
+
+    /**
+     * get existing app instance or create a new one if none does not exist
+     * @return Weblet
+     */
+    public function getApplication() {
+        if(!$this->app) {
+            $this->app = $this->createApplication();
+        }
+
+        return $this->app;
     }
 
     /**
@@ -47,8 +69,7 @@ class WebletTestCase extends \PHPUnit_Framework_TestCase {
         return unserialize(unserialize($cookie->getValue())[1]);
     }
 
-    public function configureApplication(Weblet $app) {
-        $app['exception_handler']->disable();
-        $app['session.test'] = true;
+    public function getFullName() {
+        return sprintf("\n%s::%s", get_class($this), $this->getName());
     }
 }
