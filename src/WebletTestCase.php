@@ -25,7 +25,9 @@ class WebletTestCase extends \PHPUnit_Framework_TestCase {
      * @return Weblet
      */
     public function createApplication() {
-        return new Weblet(['debug' => true]);
+        $app = new Weblet(['debug' => true]);
+        set_exception_handler(null);
+        return $app;
     }
 
     /**
