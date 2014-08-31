@@ -36,8 +36,6 @@ class WebletTestCase extends \PHPUnit_Framework_TestCase {
      */
     public function configureApplication(Weblet $app) {
         $app['exception_handler']->disable();
-        set_exception_handler(null);
-        $app['session.test'] = true;
     }
 
     /**
