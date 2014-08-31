@@ -64,14 +64,32 @@ class WebletTestCase extends \PHPUnit_Framework_TestCase {
         return new Client($app? $app : $this->app, $server);
     }
 
+    /**
+     * given cookie is being used to save session data, unserialize and return session data
+     * @param Client $client - containing the cookie
+     * @param string $cookieName - name of session cookie
+     * @return array|null if not found or incorrect format
+     */
     public function getCookieSessionData(Client $client, $cookieName) {
         $cookieJar = $client->getCookieJar();
         $this->assertCount(1, $cookieJar->all());
         $cookie = $cookieJar->get($cookieName);
-        return unserialize(unserialize($cookie->getValue())[1]);
+        return @unserialize(@unserialize($cookie->getValue())[1]);
     }
 
+    /**
+     * get full name of the test (including full class name and data set index)
+     */
     public function getFullName() {
         return sprintf("\n%s::%s", get_class($this), $this->getName());
+    }
+
+    /**
+     * get a service from the di/application
+     * @param string $name
+     * @return mixed
+     */
+    public function getService($name) {
+        return $this->getApplication()[$name];
     }
 }
