@@ -13,7 +13,6 @@
     "require": {
         "php": ">=5.4.0",
         "monolog/monolog": "1.10.0",
-
         "renegare/constants": "v0.1.0",
         "renegare/silexcsh": "v0.1.0",
         "silex/silex": "1.2.*@dev",
