@@ -3,6 +3,7 @@
 namespace Renegare\Weblet\Base;
 
 use Symfony\Component\HttpKernel\Client;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 /**
  * Some methods were lifted from Silex\WebTestCase #credits
@@ -11,6 +12,7 @@ class WebletTestCase extends \PHPUnit_Framework_TestCase {
 
     /** @var Weblet */
     protected $app;
+    private $urlGenerator;
 
     /**
      * creates an instance of weblet and configure it for each test
@@ -89,5 +91,29 @@ class WebletTestCase extends \PHPUnit_Framework_TestCase {
      */
     public function getService($name) {
         return $this->getApplication()[$name];
+    }
+
+    /**
+     * @param Weblet $app
+     * @return UrlGenerator
+     */
+    public function getUrlGenerator(Weblet $app = null) {
+        if($app || !$this->urlGenerator) {
+            $app = $app? $app : $this->getApplication();
+            $this->urlGenerator = $app['url_generator'];
+        }
+
+        return $this->urlGenerator;
+    }
+
+    /**
+     * @param string $name
+     * @param string $params
+     * @param Weblet $app
+     * @return string
+     */
+    public function getUrl($name, array $params=[], Weblet $app = null) {
+        return $this->getUrlGenerator($app? $app : $this->getApplication())
+            ->generate($name, $params, UrlGenerator::ABSOLUTE_URL);
     }
 }
